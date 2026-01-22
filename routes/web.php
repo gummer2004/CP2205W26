@@ -18,12 +18,19 @@ Route::get('/jobs/create', function ( ) {
     return view('jobs.create');
 });
 Route::post('/jobs', function (){
-    //dd(request('title'));
+
 //     $job = new Job();
 //     $job->title = request('title');
 //     $job->salary = request('salary');
 //     $job->employer_id = 1;
 //   $job->save();
+
+  request()->validate([
+     'title'=> ['required','min:3'] ,
+     'salary'=> ['required'],
+  ]);
+
+
   Job::create([
     'title' => request('title'),
     'salary' => request('salary'),
