@@ -40,10 +40,8 @@ Route::post('/jobs', function () {
 
 
 // show
-Route::get('/jobs/{id}', function ($id) {
+Route::get('/jobs/{job}', function (Job $job) {  //Route model binding
 
-
-    $job = Job::findOrFail($id);
     return view('jobs.show', [
         'job' => $job,
     ]);
@@ -52,10 +50,10 @@ Route::get('/jobs/{id}', function ($id) {
 
 
 // Edit
-Route::get('/jobs/{id}/edit', function ($id) {
+Route::get('/jobs/{job}/edit', function (Job $job) {
 
-    // get the job
-    $job = Job::findOrFail($id);
+    // get the job --- done with route model binding
+
     // show the form
     return view('jobs.edit', [
         'job' => $job,
@@ -81,8 +79,13 @@ Route::patch('/jobs/{id}', function ($id) {
     return redirect('/jobs/'. $job->id);
 });
 
-// Delete
-Route::delete('/jobs/{id}', function ($id) {});
+// destroy
+Route::delete('/jobs/{id}', function ($id) {
+    $job = Job::findOrFail($id);
+    $job->delete();
+    return redirect("/jobs");
+
+});
 
 Route::get('/contact', function () {
     return view('contact');
