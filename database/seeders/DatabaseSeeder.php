@@ -23,13 +23,13 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-        $employers = Employer::factory(10)->create();
+        $employers = Employer::factory(3)->create();
 
         foreach ($employers as $employer){
             Job::factory(7)->create([
                 'employer_id' => $employer->id,
             ]);
         }
-        Job::factory(7)->create();
+        //Job::factory(7)->create();
     }
 }

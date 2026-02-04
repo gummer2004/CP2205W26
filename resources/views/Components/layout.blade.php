@@ -39,10 +39,14 @@
         <div class="hidden md:block">
           <div class="ml-4 flex items-center md:ml-6">
             @guest
-            <p class="text-white"><a href="login">Login</a></p>
-            <p class="text-white ml-3"><a href="register">Register</a></p>
+            <p class="text-white"><a href="/login">Login</a></p>
+            <p class="text-white ml-3"><a href="/register">Register</a></p>
             @else
-            <p class="text-white"><a href="login">Logout</a></p>
+            <form action="/login" method="post">
+                @csrf
+                @method('DELETE')
+                <input type="submit" value="Logout" class="text-white">
+            </form>
             @endguest
           </div>
         </div>
@@ -68,7 +72,9 @@
   <header class="relative bg-white shadow-sm">
     <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 flex justify-between">
       <h1 class="text-3xl font-bold tracking-tight text-gray-900">{{ $heading }}</h1>
+      @auth
       <x-button href="/jobs/create">Add Job</x-button>
+      @endauth
     </div>
   </header>
   <main>

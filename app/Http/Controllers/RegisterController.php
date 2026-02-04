@@ -4,12 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
-class LoginController extends Controller
+class RegisterController extends Controller
 {
-
 
     /**
      * Show the form for creating a new resource.
@@ -17,7 +15,8 @@ class LoginController extends Controller
     public function create()
     {
         //
-        return view('login.create');
+
+        return view('register.create');
     }
 
     /**
@@ -25,23 +24,21 @@ class LoginController extends Controller
      */
     public function store(Request $request)
     {
-        // validate entry
+        //
         $validated = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
+                'name'=>['required'],
+                'email'=>['required','email'],
+                'password'=>['required','confirmed'],
         ]);
+        dump($validated);
 
-        if (! Auth::attempt($validated)) {
-            dd('login failed');
-        }
+        $user = User::create($validated);
 
-        // get new session
+        Auth::login($user);
+
+        // make new session
 
         return redirect('/jobs');
     }
 
-    public function destroy(){
-        Auth::logout();
-        return redirect('/jobs');
-    }
 }
